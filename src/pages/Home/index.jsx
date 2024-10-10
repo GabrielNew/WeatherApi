@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { FaSearch } from "react-icons/fa";
 import "./styles.css";
 
 const Home = () => {
@@ -43,7 +44,7 @@ const Home = () => {
           onChange={onChange}
         />
         <button type="button" onClick={getData}>
-          Search
+          <FaSearch id="SearchIcon" />
         </button>
       </div>
     </header>
