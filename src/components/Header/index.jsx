@@ -1,8 +1,9 @@
 import { useState } from "react";
+import PropTypes from "prop-types";
 import { FaSearch } from "react-icons/fa";
 import "./styles.css";
 
-const Header = () => {
+const Header = ({ onFetchData }) => {
   const [city, setCity] = useState("");
 
   const onChange = (event) => {
@@ -10,6 +11,7 @@ const Header = () => {
   };
 
   const getData = async () => {
+    let json = null;
     const url = import.meta.env.VITE_WEATHER_API_URL.concat(
       import.meta.env.VITE_WEATHER_API_KEY,
       "&q=",
@@ -19,11 +21,12 @@ const Header = () => {
       const response = await fetch(url);
 
       if (!response.ok) {
+        onFetchData(json);
         throw new Error(`Response status: ${response.status}`);
       }
 
-      const json = await response.json();
-      console.log(json);
+      json = await response.json();
+      onFetchData(json);
     } catch (error) {
       console.error(error.message);
     }
@@ -49,6 +52,10 @@ const Header = () => {
       </div>
     </header>
   );
+};
+
+Header.propTypes = {
+  onFetchData: PropTypes.func.isRequired,
 };
 
 export default Header;

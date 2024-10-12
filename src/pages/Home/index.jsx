@@ -1,9 +1,18 @@
+import { useState } from "react";
 import Header from "../../components/Header";
+import WeatherResult from "../../components/WeatherResult";
 
 const Home = () => {
+  const [weatherData, setWeatherData] = useState(null);
+
+  const handleFetchData = (data) => {
+    setWeatherData(data);
+  };
+
   return (
     <div>
-      <Header></Header>
+      <Header onFetchData={handleFetchData}></Header>
+      <WeatherResult weatherData={weatherData}></WeatherResult>
     </div>
   );
 };
