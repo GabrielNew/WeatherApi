@@ -3,13 +3,17 @@ import "./styles.css";
 
 const WeatherResult = ({ weatherData }) => {
   if (!weatherData) {
-    return <p>No data</p>;
+    return (
+      <div id="DataResult">
+        <p>No data</p>
+      </div>
+    );
   }
 
   return (
-    <div>
-      <h1>Weather data {weatherData.location.region}</h1>
+    <div id="DataResult">
       <p>Country: {weatherData.location.country}</p>
+      <p>State: {weatherData.location.region}</p>
       <p>Localtime: {weatherData.location.localtime}</p>
       <p>Last update: {weatherData.current.last_updated}</p>
       <p>Temperature in Celcius: {weatherData.current.temp_c}</p>

@@ -35,7 +35,7 @@ const Header = ({ onFetchData }) => {
   return (
     <header>
       <div id="Title">
-        <h3>WeatherApp.com</h3>
+        <h3 id="HeaderTitle">WeatherApp.com</h3>
       </div>
       <div id="UserInput">
         <input
