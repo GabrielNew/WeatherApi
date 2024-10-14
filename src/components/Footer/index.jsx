@@ -5,7 +5,19 @@ const Footer = () => {
 
   return (
     <footer>
-      <span>© This is a test application {year}</span>
+      <img
+        id="LogoFooter"
+        src="//cdn.weatherapi.com/v4/images/weatherapi_logo.png"
+        alt="Weather data by WeatherAPI.com"
+        border="0"
+      ></img>
+      <span id="SpanFooter">
+        Powered by{" "}
+        <a href="https://www.weatherapi.com/" title="Free Weather API">
+          WeatherAPI.com
+        </a>{" "}
+        {year}
+      </span>
     </footer>
   );
 };

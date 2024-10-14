@@ -7,3 +7,19 @@ footer {
   color: white;
   text-align: center;
 }
+
+a {
+  color: white;
+}
+
+#LogoFooter {
+  display: flex;
+  position: relative;
+  top: 12px;
+}
+
+#SpanFooter {
+  position: relative;
+  padding: 10px;
+  top: -15px;
+}
