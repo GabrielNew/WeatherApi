@@ -1,7 +1,6 @@
 body {
   margin: 0px;
   padding: 0px;
-  display: flex;
   background-color: #e9e9e9;
 }
 
@@ -10,9 +9,9 @@ button {
   padding: 0;
   background: none;
   cursor: pointer;
-  position: relative;
-  top: 3px;
-  right: 17px;
+  position: absolute;
+  top: 16px;
+  right: 657px;
 }
 button:focus,
 button:focus-visible {
@@ -48,4 +47,45 @@ header {
 #SearchIcon {
   display: inline;
   position: relative;
+}
+
+.container {
+  max-width: 100%;
+}
+
+.autocomplete {
+  display: flex;
+  align-items: center;
+  width: 500px;
+}
+
+.autocomplete input {
+  width: 100%;
+  border: none;
+  margin: 10px 0px;
+  font-size: 16px;
+  padding: 10px 10px 0px 10px;
+}
+
+.suggestions {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid #d4d4d4;
+  background-color: #f7f7f7;
+  border-radius: 0 0 10px 10px;
+  position: absolute;
+}
+
+.suggestions li {
+  list-style: none;
+  padding: 10px;
+  cursor: pointer;
+  width: 500px;
+  display: flex;
+  align-items: center;
+}
+
+.suggestions li:hover {
+  background-color: #d4d4d4;
 }

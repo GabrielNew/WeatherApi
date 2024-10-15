@@ -5,9 +5,15 @@ import "./styles.css";
 
 const Header = ({ onFetchData }) => {
   const [city, setCity] = useState("");
+  const [inputAutocomplete, setInputAutocomplete] = useState([]);
 
   const onChange = (event) => {
     setCity(event.target.value);
+    if (event.target.value.length > 2) {
+      debounceFetchSuggestions();
+    } else {
+      setInputAutocomplete([]);
+    }
   };
 
   const getData = async () => {
@@ -32,12 +38,48 @@ const Header = ({ onFetchData }) => {
     }
   };
 
+  const autocomplete = async () => {
+    const url = import.meta.env.VITE_WEATHER_SEARCH_API_URL.concat(
+      import.meta.env.VITE_WEATHER_API_KEY,
+      "&q=",
+      city
+    );
+
+    try {
+      const respose = await fetch(url);
+      const resposeAutocomplete = await respose.json();
+      setInputAutocomplete(resposeAutocomplete);
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
+  const debounce = (func, delay) => {
+    let timeout;
+    return (...args) => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        func(...args);
+      }, delay);
+    };
+  };
+
+  const debounceFetchSuggestions = debounce(autocomplete, 500);
+
+  const handleSelect = () => {
+    setInputAutocomplete([]);
+  };
+
   return (
-    <header>
+    <header className="container">
       <div id="Title">
         <h3 id="HeaderTitle">WeatherApp.com</h3>
       </div>
-      <div id="UserInput">
+
+      <div id="UserInput" className="autocomplete">
+        <button type="button" onClick={getData}>
+          <FaSearch id="SearchIcon" />
+        </button>
         <input
           type="text"
           name="cityInput"
@@ -46,9 +88,11 @@ const Header = ({ onFetchData }) => {
           value={city}
           onChange={onChange}
         />
-        <button type="button" onClick={getData}>
-          <FaSearch id="SearchIcon" />
-        </button>
+        <ul className="suggestions">
+          {inputAutocomplete.map((test) => (
+            <li key={test.id}>{test.region}</li>
+          ))}
+        </ul>
       </div>
     </header>
   );
