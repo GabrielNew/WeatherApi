@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { FaSearch } from "react-icons/fa";
 import "./styles.css";
@@ -6,6 +6,8 @@ import "./styles.css";
 const Header = ({ onFetchData }) => {
   const [city, setCity] = useState("");
   const [inputAutocomplete, setInputAutocomplete] = useState([]);
+
+  const autocompleteRef = useRef();
 
   const onChange = (event) => {
     setCity(event.target.value);
@@ -66,9 +68,26 @@ const Header = ({ onFetchData }) => {
 
   const debounceFetchSuggestions = debounce(autocomplete, 500);
 
-  const handleSelect = () => {
+  const handleSelect = (suggestion) => {
+    setCity(suggestion);
     setInputAutocomplete([]);
+    getData();
   };
+
+  useEffect(() => {
+    const handleOutsiteClick = (event) => {
+      if (
+        autocompleteRef.current &&
+        !autocompleteRef.current.contains(event.target)
+      ) {
+        setInputAutocomplete([]);
+      }
+    };
+    document.addEventListener("click", handleOutsiteClick);
+    return () => {
+      document.removeEventListener("click", handleOutsiteClick);
+    };
+  }, []);
 
   return (
     <header className="container">
@@ -76,7 +95,7 @@ const Header = ({ onFetchData }) => {
         <h3 id="HeaderTitle">WeatherApp.com</h3>
       </div>
 
-      <div id="UserInput" className="autocomplete">
+      <div id="UserInput" className="autocomplete" ref={autocompleteRef}>
         <button type="button" onClick={getData}>
           <FaSearch id="SearchIcon" />
         </button>
@@ -89,8 +108,10 @@ const Header = ({ onFetchData }) => {
           onChange={onChange}
         />
         <ul className="suggestions">
-          {inputAutocomplete.map((test) => (
-            <li key={test.id}>{test.region}</li>
+          {inputAutocomplete.map((city) => (
+            <li key={city.id} onClick={() => handleSelect(city.name)}>
+              {city.name} - {city.region} - {city.country}
+            </li>
           ))}
         </ul>
       </div>
